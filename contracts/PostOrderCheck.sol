@@ -25,6 +25,7 @@ contract PostDatedCheck {
     }
 
     // create payment based on date
+    // note: no money is pulled from the payer's account. just an obligation
     function createPayment(address payable _recipient, uint256 _amount,  uint256 _date) public onlyOwner {
         payments[paymentCount] = Payment({
             recipient: _recipient,
@@ -37,6 +38,8 @@ contract PostDatedCheck {
     }
 
     // execute the payment
+    // should pull, not require them to deposit into the escrow
+    // need logic for if the payer does not have the funds
     function executePayment(uint256 _id) public {
         Payment storage payment = payments[_id];
 
