@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0
+pragma solidity ^0.8.9;
 
 contract PostDatedCheck {
     
@@ -7,7 +7,7 @@ contract PostDatedCheck {
     struct Payment {
         address payable recipient;
         uint256 amount;
-        uint256 data;
+        uint256 date;
         bool executed;
     }
 
@@ -20,23 +20,24 @@ contract PostDatedCheck {
     }
 
     modifier onlyOwner() {
+        _;
         require(msg.sender == owner, "Not the contract owner");
     }
 
     // create payment based on date
-    function createPayment(address payable, _recipient, uint256, _amount,  uint256 _date) public onlyOwner {
+    function createPayment(address payable _recipient, uint256 _amount,  uint256 _date) public onlyOwner {
         payments[paymentCount] = Payment({
-            recipient: _recipeient,
+            recipient: _recipient,
             amount: _amount,
             date: _date, 
             executed: false
-        })
+        });
 
         paymentCount += 1;
     }
 
     // execute the payment
-    function executePayment(uint256, _id) public {
+    function executePayment(uint256 _id) public {
         Payment storage payment = payments[_id];
 
         require(address(this).balance >= payment.amount, "Insufficient balance");
