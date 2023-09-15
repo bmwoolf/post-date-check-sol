@@ -11,7 +11,7 @@ contract PostDatedCheck {
         bool executed;
     }
 
-    // uint256 pulib paymentCount;
+    uint256 public paymentCount;
     mapping(uint256 => Payment) public payments;
     address public owner;
 
